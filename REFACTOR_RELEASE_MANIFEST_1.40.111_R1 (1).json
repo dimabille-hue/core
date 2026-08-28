@@ -1,0 +1,40 @@
+{
+  "release": "1.40.111-R1",
+  "engineVersion": "1.40.111",
+  "refactorRevision": "R1",
+  "baselineArchive": "tabletop-engine-1.40.111-engine-only-with-launcher (1).zip",
+  "baselineArchiveSha256": "87df817847596f1f0d705860332a77d73fdeb81c692d2d7cf023eecad42db617",
+  "scope": "engine-only-with-launcher",
+  "gamePacksEmbedded": false,
+  "verification": {
+    "npmTest": "PASS",
+    "javascriptSyntax": "PASS",
+    "httpLauncherAdminSmoke": "PASS",
+    "websocketHandshakeSmoke": "PASS",
+    "gamePackAuditTemplate": "PASS"
+  },
+  "newRuntimeFiles": [
+    "runtime/core/context.js",
+    "runtime/core/event-dispatcher.js",
+    "runtime/core/execution.js",
+    "runtime/core/state-view.js",
+    "runtime/server/auth.js",
+    "test/refactor-hardening.cjs",
+    "tools/audit-game-pack.cjs"
+  ],
+  "primaryDocuments": [
+    "TECHNICAL_AUDIT_1.40.111_R1.md",
+    "GAME_PACK_REFACTOR_GUIDE_1.40.111_R1.md",
+    "REFACTOR_CHANGELOG_1.40.111_R1.md",
+    "DISTRIBUTION_ARCHITECTURE_1.40.111.md"
+  ],
+  "phase2Debt": [
+    "controlled-state-mutation",
+    "side-effect-transaction-boundary",
+    "process-or-container-sandbox-for-untrusted-packs",
+    "viewer-specific-canonical-event-projection",
+    "checkpointed-long-session-replay",
+    "pluggable-external-identity-provider",
+    "per-match-resource-quotas"
+  ]
+}
