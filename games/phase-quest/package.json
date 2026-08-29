@@ -1,0 +1,16 @@
+{
+  "name": "@tablecore/game-phase-quest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@tablecore/game-pack": "*"
+  },
+  "devDependencies": {
+    "@tablecore/core": "*"
+  }
+}
