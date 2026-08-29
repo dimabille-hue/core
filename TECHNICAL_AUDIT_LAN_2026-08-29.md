@@ -96,13 +96,13 @@
 
 **Рекомендация.** Версионировать JSON schema manifest, отклонять legacy schema в release profile, добавить capability matrix (players/TV/hidden info/reconnect/max players), release gate `npm ci && npm test && pack-lint && E2E`, фиксированную Node LTS версию и dependency audit. Отделить fixtures от installable packs.
 
-### P2-04. Генератор test provenance теряет фактический результат тестов на текущем Node
+### P2-04. Генератор test provenance терял фактический результат тестов на текущем Node — исправлено
 
-**Доказательство.** `node tools/generate-test-manifest.mjs` успешно запускает `npm test`, однако генерирует в `TEST_MANIFEST.json` значения `test.total`, `test.pass` и `test.fail` как `null`. Скрипт ищет строки формата `# tests`, `# pass`, `# fail`, в то время как текущий `node --test` выводит итоговые строки с символом `ℹ`.
+**Первопричина.** Генератор искал строки формата `# tests`, `# pass`, `# fail`, тогда как текущий `node --test` выводит итоговые строки с символом `ℹ`.
 
-**Последствие.** Файл, который должен доказывать, что и сколько именно было проверено, не содержит этих данных в текущем окружении. Это ослабляет release provenance и может скрыть регрессию при смене версии Node.
+**Исправление.** Генератор теперь принимает оба формата префикса и аварийно завершает работу, если после успешного `npm test` не может извлечь любой из трёх счётчиков. Обновлённый manifest содержит фактические total/pass/fail.
 
-**Рекомендация.** Не парсить presentation-output тест-раннера: использовать machine-readable reporter (`node --test --test-reporter=...`) либо фиксировать exit code + счётчики из собственного reporter. Добавить unit test генератора на актуальный и предыдущий поддерживаемый Node, а в CI запрещать manifest с null-счётчиками.
+**Остаточный риск.** Предпочтителен machine-readable reporter (`node --test --test-reporter=...`) и отдельный unit test генератора на поддерживаемых версиях Node; пока parser намеренно fail-closed, а не записывает `null`.
 
 ## 4. Сильные стороны
 

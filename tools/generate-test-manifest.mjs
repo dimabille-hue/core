@@ -56,9 +56,18 @@ function run(cmd) {
 }
 
 const testOutput = run('npm test 2>&1');
-const testCountMatch = testOutput?.match(/^# tests (\d+)$/m);
-const passMatch = testOutput?.match(/^# pass (\d+)$/m);
-const failMatch = testOutput?.match(/^# fail (\d+)$/m);
+// Node's default test reporter changed its summary prefix from `#` to the
+// information glyph (`ℹ`) in newer releases.  Keep accepting the original
+// TAP-style form too: the manifest is provenance data, so silently writing
+// null counts after a supported Node upgrade is worse than failing loudly.
+function readTestCount(label) {
+  const match = testOutput?.match(new RegExp(`^(?:#|ℹ)\\s+${label}\\s+(\\d+)\\s*$`, 'm'));
+  if (!match) throw new Error(`npm test completed but did not report a ${label} count`);
+  return Number(match[1]);
+}
+const testTotal = readTestCount('tests');
+const testPassed = readTestCount('pass');
+const testFailed = readTestCount('fail');
 
 const manifest = {
   generatedAt: new Date().toISOString(),
@@ -68,9 +77,9 @@ const manifest = {
   packageLockSha256: sha256File(join(ROOT, 'package-lock.json')),
   sourceArchiveSha256: sourceArchiveDigest(ROOT),
   test: {
-    total: testCountMatch ? Number(testCountMatch[1]) : null,
-    pass: passMatch ? Number(passMatch[1]) : null,
-    fail: failMatch ? Number(failMatch[1]) : null,
+    total: testTotal,
+    pass: testPassed,
+    fail: testFailed,
     command: 'npm test',
   },
   // No commit hash: this checkout has no .git directory. sourceArchiveSha256
