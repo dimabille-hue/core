@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-08-29T09:24:11.214Z",
+  "nodeVersion": "v24.15.0",
+  "npmVersion": "11.4.2",
+  "platform": "linux-x64",
+  "packageLockSha256": "35209b147096dc76c25671e0eeb8952b2a5895c60e8a0937d2c75ef7955a5de5",
+  "sourceArchiveSha256": "de2d4ece2de4126a0939de2fc15aa8357676d1240d451efbf606eb10724497d5",
+  "test": {
+    "total": 283,
+    "pass": 283,
+    "fail": 0,
+    "command": "npm test"
+  },
+  "commit": null
+}
